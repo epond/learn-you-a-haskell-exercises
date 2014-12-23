@@ -24,7 +24,9 @@ fib n = (fib' n) : fib (n-1)
 --			    stepReverseSign -3 1 = 4
 --			    stepReverseSign 1 2 = -3
 stepReverseSign :: (Fractional a, Ord a) => a -> a -> a
-stepReverseSign a = undefined
+stepReverseSign x y
+    | x > 0     = (x + y) * (-1)
+    | otherwise = (x * (-1)) + y -- this doesn't quite work :(
 
 {- Lets calculate pi.
  - The Leibniz formula for pi (http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)
