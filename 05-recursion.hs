@@ -26,7 +26,7 @@ fib n = (fib' n) : fib (n-1)
 stepReverseSign :: (Fractional a, Ord a) => a -> a -> a
 stepReverseSign x y
     | x > 0     = (x + y) * (-1)
-    | otherwise = (x * (-1)) + y -- this doesn't quite work :(
+    | otherwise = (x * (-1)) + y
 
 {- Lets calculate pi.
  - The Leibniz formula for pi (http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)
@@ -60,8 +60,11 @@ stepReverseSign x y
  -}
 
 piCalc :: (Fractional a, Integral b, Ord a) => a -> (a, b)
-piCalc a = undefined
-
+piCalc a = piCalc' 3 4 a 1
+-- Currently this doesn't compile - will come back to this later.
 piCalc' :: (Ord a, Fractional a, Integral b) => a -> a -> a -> b -> (a, b)
-piCalc' w x y z = undefined
+piCalc' currentDenom prevAttempt tolerance iterations
+	| abs (thisAttempt - prevAttempt) < tolerance = (thisAttempt, iterations)
+	| otherwise = piCalc' (currentDenom + 2) thisAttempt tolerance (iterations + 1)
+	where thisAttempt = prevAttempt + stepReverseSign (4 / currentDenom)
 
