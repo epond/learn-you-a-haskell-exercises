@@ -6,29 +6,29 @@ sumInts a b = foldl (+) 0 [a..b]
 
 -- Define a square function
 sq :: Int -> Int
-sq x = undefined
+sq x = x * x
 
 -- Sum the squares between two numbers. This function should be similar to the sumInts function
 sumSquares :: Int -> Int -> Int
-sumSquares a b = undefined
+sumSquares a b = foldl (+) 0 $ map sq [a..b]
 
 -- Define a higher order sum function which accepts an (Int -> Int) function to apply to all integers between two values.
 -- Again this should look similar to the sumInts and sumSquares functions
 higherOrderSum :: (Int -> Int) -> Int -> Int -> Int
-higherOrderSum intApplication a b = undefined
+higherOrderSum intApplication a b = foldl (+) 0 $ map intApplication [a..b]
 
 -- Define the square sum in terms of higherOrderSum
 hoSumSquares :: Int -> Int -> Int
-hoSumSquares = undefined
+hoSumSquares = higherOrderSum sq
 
 -- Define the sum between two values in terms of higherOrderSum
 -- Note there is no parameter on the function definition
 -- Try to use a lambda if possible
 hoSumInts :: Int -> Int -> Int
-hoSumInts = undefined
+hoSumInts = higherOrderSum (\x -> x)
 
 -- Create a new higher order method which generalises over the function provided by sumInts (That is, parameterize (+) :: Int -> Int -> Int) between a and b
--- This will give the ability to perform utilities such as the prodcut of all squares (or any other Int -> Int function) between a and b
+-- This will give the ability to perform utilities such as the product of all squares (or any other Int -> Int function) between a and b
 -- You will also need to generalise the base case
 -- You can also define the function signature yourself, which leaves you free to define the parameters and their order
 -- To be clear, your function will need to handle:
@@ -37,8 +37,9 @@ hoSumInts = undefined
 --  - A function to apply to each value, op :: Int -> Int
 --  - A function to apply between each value, f :: Int -> Int -> Int
 --  - A value to return in the base case when a > b, z :: Int
-higherOrderSequenceApplication = undefined
+higherOrderSequenceApplication :: Int -> Int -> (Int -> Int) -> (Int -> Int -> Int) -> Int -> Int
+higherOrderSequenceApplication startValue endValue op f z = foldl f z $ map op [startValue .. endValue]
 
--- Define a factorial method using the higherOrderSequenceAppliction
+-- Define a factorial method using the higherOrderSequenceApplication
 hoFactorial :: Int -> Int
-hoFactorial = undefined
+hoFactorial x = higherOrderSequenceApplication 1 x (\x -> x) (*) 1
