@@ -14,9 +14,12 @@ import Data.List
  - Uncomment the following declarations to complete the implementation, and provide an implementation for instance Show Card
  -}
 
-data Suit = Clubs | Spades | Diamonds | Hearts deriving (Read, Show, Eq, Ord, Bounded)
-data Digit = Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace deriving (Read, Show, Eq, Ord, Bounded)
-data Card = Card Digit Suit deriving (Eq, Ord)
+data Suit = Clubs | Spades | Diamonds | Hearts
+	deriving (Read, Show, Eq, Ord, Bounded)
+data Digit = Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace
+	deriving (Read, Show, Eq, Ord, Bounded)
+data Card = Card Digit Suit
+	deriving (Eq, Ord)
 
 instance Show Card where
 	show (Card d s) = show d ++ " of " ++ show s
