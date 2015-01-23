@@ -2,7 +2,7 @@
 -- Example: sumInts 0 1 = 1
 --          sumInts 1 3 = 6
 sumInts :: Int -> Int -> Int
-sumInts a b = undefined
+sumInts a b = foldl (+) 0 [a..b]
 
 -- Define a square function
 sq :: Int -> Int
