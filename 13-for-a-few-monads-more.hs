@@ -37,16 +37,28 @@ describe x y
 	| x > y = [show x ++ " is greater than " ++ show y]
 	| x == y = [show x ++ " is equal to " ++ show y]
 
---binarySearch :: (Show a, Ord a, Eq a, Monoid b) => (a -> a -> b) -> a -> [a] -> Writer b Bool
---binarySearch comparison target list
-
+binarySearch :: (Show a, Ord a, Eq a, Monoid b) => (a -> a -> b) -> a -> [a] -> Writer b Bool
+binarySearch _ _ [] = return False
+binarySearch writfunc x list
+    | x == midvalue = do
+        tell $ writfunc x midvalue
+        return True
+    | x < midvalue = do
+        tell $ writfunc x midvalue
+        binarySearch writfunc x $ take midindex list
+    | x > midvalue = do
+        tell $ writfunc x midvalue
+        binarySearch writfunc x $ drop (midindex + 1) list
+    where midindex = div (length list) 2
+          midvalue = list !! midindex
 
 {-
  - Investigate what other functions instead of describe can be passed to the binary search.
  - Is it possible to provide a function, so that when we do the binary search we can return a count of how many comparisons the algorithm took?
  -}
 
-myWriter :: Writer [String] Bool
-myWriter = do
-	tell ["Hello"]
-	return False
+countComparisons :: a -> a -> Sum Int
+countComparisons _ _ = Sum 1
+
+binSearchCount :: (Show a, Ord a) => a -> [a] -> Int
+binSearchCount x list = getSum $ snd $ runWriter $ binarySearch countComparisons x list
